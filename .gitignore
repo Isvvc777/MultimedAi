@@ -27,3 +27,5 @@ training/classifier_dataset/
 # OS
 .DS_Store
 Thumbs.db
+training/merged_dataset/  
+ 
