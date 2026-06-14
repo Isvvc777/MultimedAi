@@ -1,0 +1,16 @@
+# Define the root path of your dataset relative to where the training script runs
+path: ./dataset
+
+# Define the sub-folders for training and validation images
+train: images/train  
+val: images/val      
+
+# Classes mapping
+# IMPORTANT: These names must exactly match what the backend expects in yolo_service.py
+names:
+  0: lesion
+  1: wound
+  2: redness
+  3: swelling
+  4: ulcer
+  5: normal_skin
