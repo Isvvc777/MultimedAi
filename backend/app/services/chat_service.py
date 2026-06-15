@@ -1,7 +1,7 @@
 import asyncio
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_community.vectorstores import Qdrant
-from langchain_community.chat_models import ChatOllama
+from langchain_qdrant import QdrantVectorStore
+from langchain_ollama import ChatOllama
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 from qdrant_client import QdrantClient
@@ -21,7 +21,7 @@ class ChatService:
         else:
             self.llm = ChatOllama(
                 base_url=settings.ollama_base_url,
-                model="llama3.1:8b",
+                model="llama3.1",
                 temperature=0.7
             )
             
@@ -42,10 +42,10 @@ class ChatService:
                 vectors_config=VectorParams(size=384, distance=Distance.COSINE),
             )
             
-        self.vector_store = Qdrant(
+        self.vector_store = QdrantVectorStore(
             client=self.qdrant_client,
             collection_name=self.collection_name,
-            embeddings=self.embeddings
+            embedding=self.embeddings
         )
 
     async def index_report(self, analysis_id: str, report_text: str):
@@ -100,4 +100,10 @@ class ChatService:
             if chunk.content:
                 yield chunk.content
 
-chat_service = ChatService()
+_chat_service_instance = None
+
+def get_chat_service() -> ChatService:
+    global _chat_service_instance
+    if _chat_service_instance is None:
+        _chat_service_instance = ChatService()
+    return _chat_service_instance

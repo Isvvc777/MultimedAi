@@ -26,8 +26,20 @@ const ReportPage = () => {
     );
   }
 
-  const { fusion_result, yolo_result, ocr_result, llm_result, sensor_result } = report;
-  const { global_score, risk_level, recommendation } = fusion_result;
+  const { global_score, risk_level, recommendations, full_text, modality_results = [] } = report;
+  const recommendation = recommendations?.note || full_text || "No specific recommendations provided.";
+
+  // Extract modalities
+  const yolo_modality = modality_results.find((m: any) => m.modality === 'image');
+  const ocr_modality = modality_results.find((m: any) => m.modality === 'pdf');
+  const llm_modality = modality_results.find((m: any) => m.modality === 'text');
+  const sensor_modality = modality_results.find((m: any) => m.modality === 'sensor');
+
+  // Map to old expected names
+  const yolo_result = yolo_modality ? { ...yolo_modality, detections: yolo_modality.raw_output?.detections || [] } : null;
+  const ocr_result = ocr_modality ? { ...ocr_modality, clinical_summary: ocr_modality.summary } : null;
+  const llm_result = llm_modality ? { ...llm_modality, clinical_summary: llm_modality.summary } : null;
+  const sensor_result = sensor_modality ? { ...sensor_modality, clinical_summary: sensor_modality.summary } : null;
 
   // Determine colors based on risk level
   const riskConfig = {
@@ -113,7 +125,7 @@ const ReportPage = () => {
               <ul className="space-y-2">
                 {yolo_result.detections.map((d: any, idx: number) => (
                   <li key={idx} className="bg-blue-50 px-3 py-2 rounded-lg text-sm flex justify-between">
-                    <span className="font-medium text-blue-900 capitalize">{d.class_name}</span>
+                    <span className="font-medium text-blue-900 capitalize">{d.label || d.class_name || 'Unknown Detection'}</span>
                     <span className="text-blue-700">{(d.confidence * 100).toFixed(1)}% conf</span>
                   </li>
                 ))}

@@ -3,14 +3,18 @@ from fastapi.responses import StreamingResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db, AsyncSessionLocal
 from app.schemas.analysis import ChatMessageRequest
-from app.services.chat_service import chat_service
+from app.services.chat_service import get_chat_service, ChatService
 from app.models.analysis import ChatMessage, ChatRole
 import json
 
 router = APIRouter(prefix="/chat", tags=["Chat"])
 
 @router.post("")
-async def stream_chat(request: ChatMessageRequest, db: AsyncSession = Depends(get_db)):
+async def stream_chat(
+    request: ChatMessageRequest, 
+    db: AsyncSession = Depends(get_db),
+    chat_service: ChatService = Depends(get_chat_service)
+):
     """
     Accepts a message, retrieves RAG context from Qdrant, and streams the response using SSE.
     """

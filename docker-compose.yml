@@ -35,7 +35,15 @@ services:
     volumes:
       - ./backend:/app
     env_file:
-      - .env
+      - backend/.env
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-multimedai}
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - MINIO_ENDPOINT=minio:9000
+      - QDRANT_URL=http://qdrant:6333
+      - OLLAMA_BASE_URL=http://ollama:11434
     depends_on:
       - postgres
       - redis
@@ -52,7 +60,15 @@ services:
     volumes:
       - ./backend:/app
     env_file:
-      - .env
+      - backend/.env
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-multimedai}
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - MINIO_ENDPOINT=minio:9000
+      - QDRANT_URL=http://qdrant:6333
+      - OLLAMA_BASE_URL=http://ollama:11434
     depends_on:
       - postgres
       - redis
@@ -65,7 +81,7 @@ services:
   postgres:
     image: pgvector/pgvector:pg15
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}

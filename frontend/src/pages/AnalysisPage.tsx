@@ -10,12 +10,8 @@ const AnalysisPage = () => {
   const { data, isLoading, isError } = useAnalysisStatus(id || null, true);
 
   useEffect(() => {
-    if (data?.status === 'completed') {
-      // Small delay before redirecting for better UX
-      const timer = setTimeout(() => {
-        navigate(`/report/${id}`);
-      }, 1500);
-      return () => clearTimeout(timer);
+    if (data?.status === 'done') {
+      navigate(`/report/${id}`, { replace: true });
     }
   }, [data?.status, id, navigate]);
 
@@ -32,7 +28,7 @@ const AnalysisPage = () => {
   // Derive current step index based on progress (0 to 100)
   const progress = data?.progress || 0;
   let currentStepIndex = Math.floor((progress / 100) * steps.length);
-  if (data?.status === 'completed') currentStepIndex = steps.length;
+  if (data?.status === 'done') currentStepIndex = steps.length;
 
   if (isError || data?.status === 'failed') {
     return (
@@ -60,7 +56,7 @@ const AnalysisPage = () => {
       <div className="bg-white p-8 rounded-3xl shadow-lg border border-slate-100">
         <div className="flex items-center justify-center mb-8">
           <div className="relative w-32 h-32 flex items-center justify-center">
-            {data?.status === 'completed' ? (
+            {data?.status === 'done' ? (
               <CheckCircle className="w-20 h-20 text-emerald-500 animate-in zoom-in" />
             ) : (
               <Loader2 className="w-20 h-20 text-blue-500 animate-spin" />
@@ -78,7 +74,7 @@ const AnalysisPage = () => {
         <div className="mt-10 space-y-4">
           {steps.map((step, index) => {
             const isCompleted = index < currentStepIndex;
-            const isCurrent = index === currentStepIndex && data?.status !== 'completed';
+            const isCurrent = index === currentStepIndex && data?.status !== 'done';
             
             return (
               <div 

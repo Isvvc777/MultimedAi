@@ -13,9 +13,9 @@ export const useAnalysisStatus = (analysisId: string | null, enabled: boolean) =
     queryFn: () => getAnalysisStatus(analysisId as string),
     enabled: !!analysisId && enabled,
     refetchInterval: (query) => {
-      // Stop polling if status is completed or failed
+      // Stop polling if status is done or failed
       const status = query.state?.data?.status;
-      if (status === 'completed' || status === 'failed') {
+      if (status === 'done' || status === 'failed') {
         return false;
       }
       return 2000; // Poll every 2 seconds

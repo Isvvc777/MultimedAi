@@ -31,7 +31,7 @@ class LLMService:
             print(f"LLM Service: Initializing with local Ollama at {settings.ollama_base_url}")
             self.llm = ChatOllama(
                 base_url=settings.ollama_base_url,
-                model="llama3.1:8b",
+                model="llama3.1",
                 temperature=0.1,
                 format="json"  # Ensure Ollama knows to output JSON
             )

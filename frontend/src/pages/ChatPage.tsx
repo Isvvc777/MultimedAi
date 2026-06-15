@@ -45,16 +45,15 @@ const ChatPage = () => {
     setMessages((prev) => [...prev, { role: 'assistant', content: '' }]);
 
     try {
-      // Format history for backend
+      // Format history for backend as List[Dict[str, str]]
       const history = newMessages
         .filter((_, i) => i !== 0 && i !== newMessages.length - 1) // exclude first welcome and last user message
-        .map(m => `${m.role === 'user' ? 'Human' : 'AI'}: ${m.content}`)
-        .join('\n');
+        .map(m => ({ role: m.role, content: m.content }));
 
-      const response = await fetch(`http://localhost:8000/api/v1/chat/${id}`, {
+      const response = await fetch(`http://localhost:8000/api/v1/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text, history })
+        body: JSON.stringify({ analysis_id: id, message: text, history })
       });
 
       if (!response.body) throw new Error('No response body');

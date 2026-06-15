@@ -1,0 +1,43 @@
+# FastAPI & Web
+fastapi
+uvicorn
+python-multipart
+
+# Database
+sqlalchemy
+asyncpg
+alembic
+pydantic
+pydantic-settings
+
+# Background Tasks & Redis
+celery
+redis
+
+# MinIO
+minio
+
+# Qdrant
+qdrant-client
+langchain-qdrant
+
+# LangChain & LLMs
+langchain
+langchain-core
+langchain-ollama
+langchain-huggingface
+
+# OCR & PDF
+paddleocr
+paddlenlp
+pdf2image
+
+# PDF Generation
+jinja2
+xhtml2pdf
+
+# ML & Images
+ultralytics
+pillow
+numpy
+opencv-python-headless
