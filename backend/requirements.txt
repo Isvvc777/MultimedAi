@@ -26,6 +26,7 @@ langchain
 langchain-core
 langchain-ollama
 langchain-huggingface
+langchain-openai
 
 # OCR & PDF
 paddleocr
