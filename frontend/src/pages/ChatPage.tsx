@@ -68,13 +68,31 @@ const ChatPage = () => {
         done = readerDone;
         if (value) {
           const chunk = decoder.decode(value, { stream: true });
-          assistantText += chunk;
           
-          setMessages((prev) => {
-            const updated = [...prev];
-            updated[updated.length - 1].content = assistantText;
-            return updated;
-          });
+          // Parse SSE stream format: data: {"token": "..."}\n\n
+          const lines = chunk.split('\n');
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              const dataStr = line.slice(6).trim();
+              if (dataStr === '[DONE]') {
+                done = true;
+                break;
+              }
+              try {
+                const data = JSON.parse(dataStr);
+                if (data.token && data.token !== '[ERROR]') {
+                  assistantText += data.token;
+                  setMessages((prev) => {
+                    const updated = [...prev];
+                    updated[updated.length - 1].content = assistantText;
+                    return updated;
+                  });
+                }
+              } catch (e) {
+                // Ignore partial/invalid JSON from chunk boundaries if any
+              }
+            }
+          }
         }
       }
     } catch (error) {
