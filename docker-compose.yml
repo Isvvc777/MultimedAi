@@ -18,7 +18,7 @@ services:
     build:
       context: ./frontend
     ports:
-      - "3000:3000"
+      - "3001:3000"
     volumes:
       - ./frontend:/app
       - /app/node_modules
@@ -30,6 +30,7 @@ services:
   backend:
     build:
       context: ./backend
+    image: multimedai-backend
     ports:
       - "8000:8000"
     volumes:
@@ -56,6 +57,7 @@ services:
   worker:
     build:
       context: ./backend
+    image: multimedai-backend
     command: celery -A app.tasks.analysis_tasks.celery_app worker --loglevel=info
     volumes:
       - ./backend:/app
