@@ -816,25 +816,6 @@ python tests/integration/test_full_pipeline.py
 
 ---
 
-## 🗺 Roadmap
-
-- [x] Project architecture and design system
-- [x] Docker Compose environment
-- [ ] YOLOv11 fine-tuning on ISIC dataset
-- [ ] FastAPI backend skeleton
-- [ ] Celery async task pipeline
-- [ ] React frontend — all 4 screens
-- [ ] RAG chat assistant with Qdrant
-- [ ] PDF report export
-- [ ] Unit tests for all AI services
-- [ ] End-to-end integration tests
-- [ ] User authentication (optional)
-- [ ] Multi-language support (FR / EN / AR)
-- [ ] Mobile-responsive layout
-- [ ] Demo deployment on Render / Railway
-
----
-
 ## 🤝 Contributing
 
 Contributions are welcome. Please follow these steps:
