@@ -29,4 +29,12 @@
 
 </div>
 
+##  Overview
+
+**MultiMedAI** is a multimodal health risk assessment platform that aggregates information from four distinct input sources — medical images, symptom descriptions, PDF documents, and wearable sensor data — and fuses them through a weighted AI pipeline to produce a structured, human-readable risk report.
+
+The platform is designed as a **preliminary analysis aid**, not a diagnostic tool. It helps users organize and contextualize their health information before a medical consultation, and provides a conversational AI assistant that can answer questions grounded in the generated report.
+
+> **Context:** This project was developed  to demonstrate applied skills in computer vision, NLP, document processing, full-stack development, and multimodal AI fusion.
+
 ---
